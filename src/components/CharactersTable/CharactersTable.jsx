@@ -34,49 +34,49 @@ const CharactersTable = ({ characters }) => {
   };
 
   return (
-    <table {...getTableProps()}>
-      <thead>
+    <MaUTable {...getTableProps()}>
+      <TableHead>
         {headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
+          <TableRow {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+              <TableCell {...column.getHeaderProps()}>
+                {column.render('Header')}
+              </TableCell>
             ))}
-          </tr>
+          </TableRow>
         ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
+      </TableHead>
+      <TableBody {...getTableBodyProps()}>
         {rows.map(row => {
           prepareRow(row);
           return (
             <Fragment key={row.getRowProps().key}>
-              <tr>
+              <TableRow>
                 {row.cells.map(cell => {
                   return (
-                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                    <TableCell {...cell.getCellProps()}>
+                      {cell.render('Cell')}
+                    </TableCell>
                   );
                 })}
-              </tr>
+              </TableRow>
               {row.isExpanded && (
-                <tr>
-                  <td colSpan={visibleColumns.length}>
+                <TableRow>
+                  <TableCell colSpan={visibleColumns.length}>
                     {renderRowSubComponent(row)}
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               )}
             </Fragment>
           );
         })}
-      </tbody>
-    </table>
+      </TableBody>
+    </MaUTable>
   );
 };
 
 CharactersTable.propTypes = {
-  // bla: PropTypes.string,
-};
-
-CharactersTable.defaultProps = {
-  // bla: 'test',
+  characters: PropTypes.array.isRequired,
 };
 
 export default CharactersTable;

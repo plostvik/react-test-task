@@ -4,8 +4,6 @@ import BooksList from '../components/BooksList';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import PropTypes from 'prop-types';
-
 const BooksPage = () => {
   const [books, setBooks] = useState([]);
   const [isLoading, setLoading] = useState(false);
@@ -13,10 +11,9 @@ const BooksPage = () => {
   const getBooks = async function () {
     try {
       const reqBooks = await bookService.getBooks();
-      console.log(reqBooks);
-      setBooks(books => [...books, ...reqBooks]);
+      setBooks(reqBooks);
     } catch (err) {
-      console.log(err);
+      alert(err);
     } finally {
       setLoading(false);
     }
@@ -33,17 +30,8 @@ const BooksPage = () => {
       <Backdrop open={isLoading} color="primary">
         <CircularProgress />
       </Backdrop>
-      ;
     </>
   );
-};
-
-BooksPage.propTypes = {
-  // bla: PropTypes.string,
-};
-
-BooksPage.defaultProps = {
-  // bla: 'test',
 };
 
 export default BooksPage;

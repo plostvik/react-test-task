@@ -1,33 +1,12 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
+import CardActionArea from '@material-ui/core/CardActionArea';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { useStyles } from '../../shared/materialStyles';
 import Container from '@material-ui/core/Container';
-
-// import styles from './BooksList.module.css';
-
-const useStyles = makeStyles({
-  booksList: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 0,
-  },
-  listItem: {
-    width: 350,
-    height: '100%',
-    margin: '10px',
-    cursor: 'pointer',
-  },
-  title: {
-    fontSize: 14,
-  },
-});
 
 const BooksList = ({ books }) => {
   const classes = useStyles();
@@ -49,15 +28,23 @@ const BooksList = ({ books }) => {
                 className={classes.listItem}
                 onClick={() => handleClick(index + 1)}
               >
-                <CardContent>
-                  <Typography gutterBottom variant="h5">
-                    {name}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    Authors: {authors.join(', ')}
-                  </Typography>
-                  <Typography>Pages: {numberOfPages}</Typography>
-                </CardContent>
+                <CardActionArea>
+                  <CardContent>
+                    <Typography gutterBottom variant="h5">
+                      {name}
+                    </Typography>
+                    <Typography className={classes.bold}>
+                      Authors:{' '}
+                      <span className={classes.regular}>
+                        {authors.join(', ')}
+                      </span>
+                    </Typography>
+                    <Typography className={classes.bold}>
+                      Pages:{' '}
+                      <span className={classes.regular}>{numberOfPages}</span>
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
               </Card>
             );
           })}
@@ -67,11 +54,7 @@ const BooksList = ({ books }) => {
 };
 
 BooksList.propTypes = {
-  // bla: PropTypes.string,
-};
-
-BooksList.defaultProps = {
-  // bla: 'test',
+  books: PropTypes.array.isRequired,
 };
 
 export default BooksList;

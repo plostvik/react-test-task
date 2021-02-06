@@ -10,9 +10,8 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Box from '@material-ui/core/Box';
-// import { makeStyles } from '@material-ui/core/styles';
 
-import PropTypes from 'prop-types';
+import { useStyles } from '../shared/materialStyles';
 
 const BookDetailsPage = () => {
   const [book, setBook] = useState({});
@@ -20,6 +19,7 @@ const BookDetailsPage = () => {
   const [showTable, setShowTable] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const { bookId } = useParams();
+  const classes = useStyles();
 
   useEffect(() => {
     const getBook = async function () {
@@ -50,8 +50,8 @@ const BookDetailsPage = () => {
 
   const toggleTable = ({ target }) => {
     showTable
-      ? (target.textContent = 'Show as table')
-      : (target.textContent = 'Show as list');
+      ? (target.textContent = 'Show characters as a table')
+      : (target.textContent = 'Show characters as a list');
 
     setShowTable(showTable => !showTable);
   };
@@ -59,8 +59,8 @@ const BookDetailsPage = () => {
   const { name, authors, numberOfPages, mediaType, publisher } = book;
   const shouldRenderCharacters = !!characters ? (
     <>
-      <Button variant="contained" color="primary" onClick={toggleTable}>
-        Show as table
+      <Button variant="contained" onClick={toggleTable} disableElevation>
+        Show characters as a table
       </Button>
       {!showTable && <Characters characters={characters} />}
       {!!showTable && <CharactersTable characters={characters} />}
@@ -68,31 +68,40 @@ const BookDetailsPage = () => {
   ) : (
     <>
       {!isLoading && (
-        <p>Unfortunately, we don't have character list for this book!</p>
+        <p>Unfortunately, we don't have characters list for this book!</p>
       )}
     </>
   );
-  //не забудь центрировать лоадер
   return (
     <Container maxWidth="sm">
-      <Card>
+      <Card className={classes.card}>
         <CardContent>
           {!!Object.keys(book).length && (
             <>
-              <Typography gutterBottom variant="h2">
-                {name}
-              </Typography>
-              <Typography variant="body2" color="textSecondary">
-                Authors: {authors}
-              </Typography>
-              <Typography>Pages: {numberOfPages}</Typography>
-              <Typography>Publisher: {publisher}</Typography>
-              <Typography>Type: {mediaType}</Typography>
+              <Box mb="10px">
+                <Typography gutterBottom variant="h2">
+                  {name}
+                </Typography>
+                <Typography className={classes.bold}>
+                  Authors: <span className={classes.regular}>{authors}</span>
+                </Typography>
+                <Typography className={classes.bold}>
+                  Pages:{' '}
+                  <span className={classes.regular}>{numberOfPages}</span>
+                </Typography>
+                <Typography className={classes.bold}>
+                  Publisher:{' '}
+                  <span className={classes.regular}>{publisher}</span>
+                </Typography>
+                <Typography className={classes.bold}>
+                  Type: <span className={classes.regular}> {mediaType}</span>
+                </Typography>
+              </Box>
               {shouldRenderCharacters}
             </>
           )}
           {isLoading && (
-            <Box textAlign="center">
+            <Box textAlign="center" className={classes.loader}>
               <CircularProgress />
             </Box>
           )}
@@ -100,14 +109,6 @@ const BookDetailsPage = () => {
       </Card>
     </Container>
   );
-};
-
-BookDetailsPage.propTypes = {
-  // bla: PropTypes.string,
-};
-
-BookDetailsPage.defaultProps = {
-  // bla: 'test',
 };
 
 export default BookDetailsPage;

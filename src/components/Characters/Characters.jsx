@@ -1,22 +1,20 @@
 import React from 'react';
+import List from '@material-ui/core/List';
+import ListItemText from '@material-ui/core/ListItemText';
 import PropTypes from 'prop-types';
 
 const Characters = ({ characters }) => {
   return (
-    <ul>
+    <List>
       {characters.map(({ name }) => {
-        return <li key={name}>{name}</li>;
+        return <ListItemText key={name}>{name}</ListItemText>;
       })}
-    </ul>
+    </List>
   );
 };
 
 Characters.propTypes = {
-  // bla: PropTypes.string,
-};
-
-Characters.defaultProps = {
-  // bla: 'test',
+  characters: PropTypes.array.isRequired,
 };
 
 export default Characters;
